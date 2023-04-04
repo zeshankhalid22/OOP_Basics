@@ -40,5 +40,5 @@ int main(){
         cout<<"\nStudent Number "<<j+1<<endl;
         ptr->printData();
     }
-
+    delete[] ptr;   //free up space
 }
