@@ -1,0 +1,89 @@
+#include <iostream>
+using namespace std;
+class Complex {
+    double real;
+    double imaginary;
+public:
+
+    // Constructor
+    Complex(double real = 0, double imaginary = 0) : real(real), imaginary(imaginary) {}
+
+    // Copy Constructor
+    Complex(Complex &other){
+        real  = other.real;
+        imaginary = other.imaginary;
+    }
+
+    // * 1. Overloading +
+    Complex operator+(Complex arg){
+        return Complex(real + arg.real, imaginary + arg.imaginary);
+    }
+
+    // * 2. Overloading Extraction >>
+    friend  istream& operator>>(istream& ist, Complex &other) {
+        cout<<"(A + Bi) >> ";
+        ist >> other.real >> other.imaginary;
+        return ist;
+    }
+
+    // * 3. Overloading Insertion <<
+    friend  ostream& operator<<(ostream &ost,Complex &arg){
+        ost <<  arg.real << " + " << arg.imaginary << "i" << std::endl;
+        return ost;
+    }
+
+    // * 4. Overloading Post Decrement X++
+    Complex operator++(int){ // C1.real = 4;    C2 = C1++; c2.real = 4;
+        Complex temp = *this;
+        real++;
+        imaginary++;
+        return temp;
+    }
+
+    // * 4.2 Prefix operator
+    Complex operator++(){
+        real++;
+        imaginary++;
+    }
+
+    // * 5. Overloading Xor ^
+    Complex operator^(Complex& other){
+        double realRes = real + other.real; // ^
+        double imaginaryRes = imaginary + other.imaginary;  // ^
+        return  Complex(realRes,imaginaryRes);
+    }
+
+    // * 6. Overloading ==
+    bool operator==(Complex& other){
+        return (real == other.real) && (imaginary == other.imaginary);
+    }
+
+};
+int main(){
+
+    Complex C1,C2;
+    cin>>C1;        // 1. overloaded >> operator
+    cin>>C2;
+
+
+    Complex C3 = C1 + C2; // 2. Uses overloaded + operator
+
+    cout<<"\nC3: "<<C3;   // 3. Overloaded Insertion operator
+
+    Complex C4 = C3++;  // 4. Overloaded Post Inc.
+    cout<<"C4: "<<C4;   // C4 will be same as C3, but C3 will be incremented
+
+    cout<<"C3 Incremented: "<<C3;   // Updated C3
+
+    Complex C5 = C4 ^ C3;   // 5. Bitwise ^ operator overloading
+    cout<<"C5: "<<C5;
+
+    if(C4 == C5)            // 6. Overloaded ==
+        cout<<"C4 == C5\n";
+    else
+        cout<<" C4 != C5\n";
+
+
+
+
+}
